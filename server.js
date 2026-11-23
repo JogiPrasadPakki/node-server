@@ -226,6 +226,10 @@ app.delete('/images/:id', async (req, res) => {
   }
 });
 
+app.get('/headers', (req, res) => {
+  res.json(req.headers);
+});
+
 // Global Multer Error Handler
 app.use((err, req, res, next) => {
   res.status(400).json({ error: err.message });
