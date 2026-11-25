@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
 import multer from 'multer';
+import os from 'node:os';
+
 
 const app = express();
 const PORT = process.env.PORT || 4003;
@@ -224,6 +226,24 @@ app.delete('/images/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.get("/os", (req, res) => {
+    //get all os info
+    
+    res.json({
+        platform: os.platform(),       // e.g., 'darwin', 'linux', 'win32'
+        type: os.type(),               // e.g., 'Darwin', 'Linux', 'Windows_NT'
+        release: os.release(),         // e.g., '23.4.0' or '10.0.22631'
+        arch: os.arch(),               // e.g., 'arm64', 'x64'
+        hostname: os.hostname(),       // Machine network name
+        uptimeHours: (os.uptime() / 3600).toFixed(2),
+        totalMemGB: (os.totalmem() / 1e9).toFixed(2),
+        freeMemGB: (os.freemem() / 1e9).toFixed(2),
+        cpuCores: os.cpus().length,
+        homeDir: os.homedir(),
+        tempDir: os.tmpdir()
+    });
 });
 
 app.get('/headers', (req, res) => {
